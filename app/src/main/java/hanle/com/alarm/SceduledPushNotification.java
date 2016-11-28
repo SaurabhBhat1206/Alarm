@@ -16,6 +16,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -31,9 +32,9 @@ public class SceduledPushNotification extends IntentService {
     Notification notification;
     private static final String TAG = SceduledPushNotification.class.getSimpleName();
     StringBuilder sam;
-    String sl;
-    ArrayList<String> title;
-
+    ArrayList<String> title = new ArrayList<>();
+    HashSet<String> al = new HashSet<String>();
+    Iterator<String> itr;
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
      */
@@ -61,39 +62,54 @@ public class SceduledPushNotification extends IntentService {
 
 
         for (int i = 0; i < title.size(); i++) {
-            s1.append(i);
-            s1.append(title.get(i));
-            s1.append(",");
+
+            al.add(title.get(i));
 
         }
-            String eventtitle = s1.toString();
-            String tl = "Event Scheduled for today:";
-            //inboxStyle.addLine(title.get(i));
-            //Log.e("evt:", title.get(i));
-            Notification notification;
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
-            notification = builder.setSmallIcon(R.drawable.nooismall).setTicker(tl).setWhen(0)
+        System.out.println("Set:"+al);
+        itr=al.iterator();
+        System.out.println("Iterator:"+itr);
 
-                    .setContentIntent(pendingIntent)
-                    .setSmallIcon(R.drawable.nooismall)
-                    .setLargeIcon(BitmapFactory.decodeResource(res, R.drawable.nooismall))
-                    .setTicker("nooi Events")
-                    .setAutoCancel(true)
-                    .setStyle(inboxStyle)
-                    .setSound(soundUri)
-                    .setContentTitle("Event Scheduled for today:")
-                    .setContentText(eventtitle)
-                    .build();
+        while(itr.hasNext()){
+            int is=0;
+            System.out.println("saman"+itr.next());
+            s1.append(is+1);
+            s1.append(itr.next());
+            s1.append(",");
 
 
-            notification.flags |= Notification.FLAG_AUTO_CANCEL | Notification.FLAG_SHOW_LIGHTS;
-            notification.defaults |= Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE;
-            notification.ledARGB = 0xFFFFA500;
-            notification.ledOnMS = 800;
-            notification.ledOffMS = 1000;
-            notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            notificationManager.notify(NOTIFICATION_ID, notification);
+        }
+
+
+        String eventtitle = s1.toString();
+        String tl = "Event Scheduled for today:";
+        //inboxStyle.addLine(title.get(i));
+        //Log.e("evt:", title.get(i));
+        Notification notification;
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+
+        notification = builder.setSmallIcon(R.drawable.nooismall).setTicker(tl).setWhen(0)
+
+                .setContentIntent(pendingIntent)
+                .setSmallIcon(R.drawable.nooismall)
+                .setLargeIcon(BitmapFactory.decodeResource(res, R.drawable.nooismall))
+                .setTicker("nooi Events")
+                .setAutoCancel(true)
+                //.setStyle(inboxStyle)
+                .setSound(soundUri)
+                .setContentTitle("Event Scheduled for today:")
+                .setContentText(eventtitle)
+                .build();
+
+
+        notification.flags |= Notification.FLAG_AUTO_CANCEL | Notification.FLAG_SHOW_LIGHTS;
+        notification.defaults |= Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE;
+        notification.ledARGB = 0xFFFFA500;
+        notification.ledOnMS = 800;
+        notification.ledOffMS = 1000;
+        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(NOTIFICATION_ID, notification);
 
 //         intent = new Intent(getApplicationContext(), ScheduledPush.class);
 //        final PendingIntent pIntent = PendingIntent.getBroadcast(this, ScheduledPush.REQUEST_CODE,
@@ -101,7 +117,7 @@ public class SceduledPushNotification extends IntentService {
 //        AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
 //        alarm.cancel(pIntent);
 //        Log.e(TAG,"Alarm cancelled");
-            //AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        //AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
 
     }
 }
