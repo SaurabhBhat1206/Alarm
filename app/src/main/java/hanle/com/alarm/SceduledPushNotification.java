@@ -61,16 +61,15 @@ public class SceduledPushNotification extends IntentService {
 
 
         for (int i = 0; i < title.size(); i++) {
-//            s1.append(i);
-//            String[] s = title.get(i).split(":");
-//            s1.append(s[1]);
-//            s1.append(",");
+            s1.append(i);
+            s1.append(title.get(i));
+            s1.append(",");
 
-
-            //String eventtitle = s1.toString();
+        }
+            String eventtitle = s1.toString();
             String tl = "Event Scheduled for today:";
             //inboxStyle.addLine(title.get(i));
-            Log.e("evt:", title.get(i));
+            //Log.e("evt:", title.get(i));
             Notification notification;
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
@@ -84,7 +83,7 @@ public class SceduledPushNotification extends IntentService {
                     .setStyle(inboxStyle)
                     .setSound(soundUri)
                     .setContentTitle("Event Scheduled for today:")
-                    .setContentText(i + 1+"." + title.get(i))
+                    .setContentText(eventtitle)
                     .build();
 
 
@@ -103,7 +102,6 @@ public class SceduledPushNotification extends IntentService {
 //        alarm.cancel(pIntent);
 //        Log.e(TAG,"Alarm cancelled");
             //AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        }
+
     }
 }
-

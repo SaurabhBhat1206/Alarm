@@ -20,6 +20,7 @@ import java.util.TimeZone;
 public class ScheduledPush extends BroadcastReceiver {
     Context ctx;
     public static final int REQUEST_CODE = 12345;
+    ArrayList<String> mylist;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -42,21 +43,18 @@ public class ScheduledPush extends BroadcastReceiver {
                 try {
                     Date currentD = formatter.parse(localTime2);
                     Date date1 = formatter.parse(entry.get("dat"));
-                    System.out.println("Today op:"+date1.equals(currentD));
+                    System.out.println("Today op:" + date1.equals(currentD));
                     if (date1.equals(currentD)) {
-                        System.out.println("Inside loop:" + entry.get("event_title"));
+                        System.out.println("sule" + entry.get("event_title"));
                         //ArrayList<SqlliteModel> myList = new ArrayList<>();
                         //SqlliteModel sq = new SqlliteModel();
                         //sq.setEventid(entry.get("eID"));
                         //sq.setEvent_title(entry.get("event_title"));
                         //myList.add(sq);
 
-                        ArrayList<String> mylist = new ArrayList<>();
+                        mylist = new ArrayList<>();
                         //mylist.add(entry.get("eID")+":"+entry.get("event_title"));
                         mylist.add(entry.get("event_title"));
-                        Intent service1 = new Intent(context, SceduledPushNotification.class);
-                        service1.putStringArrayListExtra("ar",mylist);
-                        context.startService(service1);
 
                     }
 
@@ -65,6 +63,11 @@ public class ScheduledPush extends BroadcastReceiver {
                 }
 
             }
+
+
+            Intent service1 = new Intent(context, SceduledPushNotification.class);
+            service1.putStringArrayListExtra("ar", mylist);
+            context.startService(service1);
         }
 
 
